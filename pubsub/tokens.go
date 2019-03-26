@@ -1,8 +1,6 @@
 package pubsub
 
 import (
-	"fmt"
-
 	"github.com/shredx/golang-redis-rate-limiter/app/models"
 )
 
@@ -46,12 +44,11 @@ func Tokens(ch chan Token) {
 		val := cache[req.KeyHash]
 		if !val {
 			//since key is not in cache, try redis
-			ke, err := Client.Get(req.KeyHash).Result()
+			_, err := Client.Get(req.KeyHash).Result()
 			if err == nil {
 				val = true
 				cache[req.KeyHash] = true
 			}
-			fmt.Println(ke, req.KeyHash, err)
 		}
 
 		//returning the response

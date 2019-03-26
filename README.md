@@ -29,12 +29,23 @@ go run main.go
 ```sh
 git clone https://github.com/shredx/golang-api-gateway
 cd golang-redis-rate-limiter
+git submodule init
+git submodule update
 docker-compose up
 ```
 
 #### Help
 ```sh
 go run main.go -help
+```
+### Usage
+* First add a token to the redis
+```redis-cli
+SET asd '{"key": "asd", "usage": 4, "email": "asd@asd.com"}'
+```
+* Try the api gateway
+```sh
+curl http://127.0.0.1:8080/
 ```
 
 ## Architecture

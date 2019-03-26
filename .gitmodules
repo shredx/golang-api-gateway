@@ -1,0 +1,4 @@
+[submodule "golang-redis-rate-limiter"]
+	path = golang-redis-rate-limiter
+	url = https://github.com/shredx/golang-redis-rate-limiter
+	branch = master

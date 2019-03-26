@@ -1,0 +1,30 @@
+version: '3'
+services:
+  rate-limiter:
+    build: ./golang-redis-rate-limiter
+    privileged: true
+    ports:
+      - "8085:8085"
+    networks:
+      - redis-net
+
+  gateway:
+    build: .
+    privileged: true
+    ports:
+      - "8080:8080"
+    networks:
+      - redis-net
+    links:
+      - "rate-limiter:rate-limiter"
+
+  redis:
+    container_name: redis
+    hostname: redis
+    image: redis
+    networks:
+      - redis-net
+      
+networks:
+  redis-net:
+    driver: bridge
