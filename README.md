@@ -28,7 +28,7 @@ go run main.go
 #### Docker
 ```sh
 git clone https://github.com/shredx/golang-api-gateway
-cd golang-redis-rate-limiter
+cd golang-api-gateway
 git submodule init
 git submodule update
 docker-compose up
