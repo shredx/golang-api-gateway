@@ -10,4 +10,4 @@ RUN cd $GOPATH/src/github.com/shredx/golang-api-gateway \
 EXPOSE 8080/tcp
 EXPOSE 8080/udp
 
-ENTRYPOINT ["go", "run", "main.go", "-api-url", "http://rate-limiter:8085"]
+ENTRYPOINT ["go", "run", "main.go"]

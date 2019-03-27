@@ -39,14 +39,7 @@ docker-compose up
 go run main.go -help
 ```
 ### Usage
-* First add a token to the redis
-```redis-cli
-SET asd '{"key": "asd", "usage": 4, "email": "asd@asd.com"}'
-```
-* Try the api gateway
-```sh
-curl http://127.0.0.1:8080/
-```
+* Refer the [usage doc](./Usage.md)
 
 ## Architecture
 The architecture might not be perfect as it was just a weekend project to explore Redis.

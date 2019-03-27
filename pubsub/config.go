@@ -1,6 +1,9 @@
 package pubsub
 
-import "flag"
+import (
+	"flag"
+	"os"
+)
 
 /*
  * This file contains the definition and implementation of configuration management in the application
@@ -29,4 +32,42 @@ var RedisResetChannelName = flag.String("redis-reset-channel", "RESET", "Name of
 
 func init() {
 	flag.Parse()
+
+	//We will also accept the configuration through environment variables
+
+	//API_URL
+	val := os.Getenv("API_URL")
+	if len(val) != 0 {
+		*APIUrl = val
+	}
+	//API_TOKEN_HEADER
+	val = os.Getenv("API-TOKEN-HEADER")
+	if len(val) != 0 {
+		*APITokenHeader = val
+	}
+	//REDIS_URL
+	val = os.Getenv("REDIS_URL")
+	if len(val) != 0 {
+		*RedisURL = val
+	}
+	//REDIS_PASSWORD
+	val = os.Getenv("REDIS_PASSWORD")
+	if len(val) != 0 {
+		*RedisPassword = val
+	}
+	//REDIS_BLOCK_CHANNEL
+	val = os.Getenv("REDIS_BLOCK_CHANNEL")
+	if len(val) != 0 {
+		*RedisBlockChannelName = val
+	}
+	//REDIS_USAGE_CHANNEL
+	val = os.Getenv("REDIS_USAGE_CHANNEL")
+	if len(val) != 0 {
+		*RedisAPIUsageChannelName = val
+	}
+	//REDIS_RESET_CHANNEL
+	val = os.Getenv("REDIS_RESET_CHANNEL")
+	if len(val) != 0 {
+		*RedisResetChannelName = val
+	}
 }

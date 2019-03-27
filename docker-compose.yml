@@ -1,13 +1,5 @@
 version: '3'
 services:
-  rate-limiter:
-    build: ./golang-redis-rate-limiter
-    privileged: true
-    ports:
-      - "8085:8085"
-    networks:
-      - redis-net
-
   gateway:
     build: .
     privileged: true
@@ -17,6 +9,49 @@ services:
       - redis-net
     links:
       - "rate-limiter:rate-limiter"
+    environment:
+      - API_URL=http://rate-limiter:8085
+
+  rate-limiter:
+    build: ./golang-redis-rate-limiter
+    privileged: true
+    ports:
+      - "8085:8085"
+    networks:
+      - redis-net
+    volumes:
+      - ./golang-redis-rate-limiter/app/init.go:/go/src/github.com/shredx/golang-redis-rate-limiter/app/init.go
+      - ./golang-redis-rate-limiter/app/models:/go/src/github.com/shredx/golang-redis-rate-limiter/app/models
+      - ./golang-redis-rate-limiter/app/controllers:/go/src/github.com/shredx/golang-redis-rate-limiter/app/controllers
+      - ./golang-redis-rate-limiter/app/views:/go/src/github.com/shredx/golang-redis-rate-limiter/app/views
+      - ./golang-redis-rate-limiter/conf:/go/src/github.com/shredx/golang-redis-rate-limiter/conf
+
+  node-token-generator:
+    build: ./node-redis-rate-limiter
+    privileged: true
+    ports:
+      - "9090:9090"
+    networks:
+      - redis-net
+    links:
+      - redis:redis
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - PORT=9090
+      - TOKEN_SECRET=well-its-not-that-secure
+      - ACCESS_TOKEN_EXPIRY=10h
+      - ACCESS_TOKEN_ALGO=HS256
+      - REFRESH_TOKEN_EXPIRY=9h
+      - REFRESH_TOKEN_ALGO=HS256
+    volumes:
+      - ./node-redis-rate-limiter/app.js:/app/app.js
+      - ./node-redis-rate-limiter/index.js:/app/index.js
+      - ./node-redis-rate-limiter/utils:/app/utils
+      - ./node-redis-rate-limiter/routes:/app/routes
+      - ./node-redis-rate-limiter/modules:/app/modules
+      - ./node-redis-rate-limiter/middlewares:/app/middlewares
+      - ./node-redis-rate-limiter/db:/app/db
+      - ./node-redis-rate-limiter/constants:/app/constants
 
   redis:
     container_name: redis
