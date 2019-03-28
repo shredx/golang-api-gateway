@@ -15,7 +15,7 @@ The platform consists of three parts
 
 ## Requests
 
-### **POST** - /v1/users/
+### **POST** - /provision/v1/users/
 
 #### Description
 This API will create a test user in the platform.
@@ -24,7 +24,7 @@ You have to now create a subscription key for that user
 #### CURL
 
 ```sh
-curl -X POST "http://127.0.0.1:9090/v1/users/" \
+curl -X POST "http://127.0.0.1:8081/provision/v1/users/" \
     -H "Content-Type: application/x-www-form-urlencoded" \
     -H "Cookie: REVEL_FLASH=" \
     --data-raw "email"="test@test.com" \
@@ -81,7 +81,7 @@ curl -X POST "http://127.0.0.1:9090/v1/users/" \
 }
 ```
 
-### **POST** - /v1/users/subscriptions
+### **POST** - /provision/v1/users/subscriptions
 
 #### Description
 This API will create a subscription key for a user with given email address. Now you can copy the token key and use it with the requests to the API gateway to hit the required api with header key for the token as `token`.
@@ -89,7 +89,7 @@ This API will create a subscription key for a user with given email address. Now
 #### CURL
 
 ```sh
-curl -X POST "http://127.0.0.1:9090/v1/users/subscriptions" \
+curl -X POST "http://127.0.0.1:8081/provision/v1/users/subscriptions" \
     -H "Content-Type: application/x-www-form-urlencoded" \
     -H "Cookie: REVEL_FLASH=" \
     --data-raw "email"="test@test.com"
@@ -134,15 +134,15 @@ curl -X POST "http://127.0.0.1:9090/v1/users/subscriptions" \
 }
 ```
 
-### **GET** - /
+### **GET** - /api/
 
 #### Description
-You can check the usage of your API using the API Usage api
+You can check the usage of your API using the `API Usage` api
 
 #### CURL
 
 ```sh
-curl -X GET "http://127.0.0.1:8080/" \
+curl -X GET "http://127.0.0.1:8081/api/" \
     -H "token: e3795d31-6423-4f46-8acd-1724888955c5" \
     -H "Cookie: REVEL_FLASH="
 ```
@@ -172,16 +172,16 @@ curl -X GET "http://127.0.0.1:8080/" \
 }
 ```
 
-### **POST** - /usage
+### **POST** - /status/usage
 
 #### Description
-This api gives information about the your api usage.
-You can reset the api usage using Usage Reset api
+This api gives information about the token's api usage.
+You can reset the api usage using `Usage Reset` api
 
 #### CURL
 
 ```sh
-curl -X POST "http://127.0.0.1:8085/usage" \
+curl -X POST "http://127.0.0.1:8081/status/usage" \
     -H "Content-Type: application/x-www-form-urlencoded" \
     -H "Cookie: REVEL_FLASH=" \
     --data-raw "token"="e3795d31-6423-4f46-8acd-1724888955c5"
@@ -226,7 +226,7 @@ curl -X POST "http://127.0.0.1:8085/usage" \
 }
 ```
 
-### **POST** - /reset
+### **POST** - /status/reset
 
 #### Description
 This API will reset the usage of the given api token
@@ -234,7 +234,7 @@ This API will reset the usage of the given api token
 #### CURL
 
 ```sh
-curl -X POST "http://127.0.0.1:8085/reset" \
+curl -X POST "http://127.0.0.1:8081/status/reset" \
     -H "Content-Type: application/x-www-form-urlencoded; charset=utf-8" \
     -H "Cookie: REVEL_FLASH=" \
     --data-raw "token"="e3795d31-6423-4f46-8acd-1724888955c5"
@@ -278,6 +278,3 @@ curl -X POST "http://127.0.0.1:8085/reset" \
   "default": "e3795d31-6423-4f46-8acd-1724888955c5"
 }
 ```
-
-## References
-

@@ -43,22 +43,24 @@ services:
       - ACCESS_TOKEN_ALGO=HS256
       - REFRESH_TOKEN_EXPIRY=9h
       - REFRESH_TOKEN_ALGO=HS256
-    volumes:
-      - ./node-redis-rate-limiter/app.js:/app/app.js
-      - ./node-redis-rate-limiter/index.js:/app/index.js
-      - ./node-redis-rate-limiter/utils:/app/utils
-      - ./node-redis-rate-limiter/routes:/app/routes
-      - ./node-redis-rate-limiter/modules:/app/modules
-      - ./node-redis-rate-limiter/middlewares:/app/middlewares
-      - ./node-redis-rate-limiter/db:/app/db
-      - ./node-redis-rate-limiter/constants:/app/constants
 
   redis:
-    container_name: redis
     hostname: redis
     image: redis
     networks:
       - redis-net
+
+  nginx:
+    build: ./final-build
+    links:
+      - "rate-limiter:rate-limiter"
+      - "gateway:api-gateway"
+      - "node-token-generator:token-generator"
+    ports:
+      - "8081:80"
+    networks:
+      - redis-net
+
       
 networks:
   redis-net:
